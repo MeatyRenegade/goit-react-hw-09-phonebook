@@ -1,0 +1,16 @@
+.link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 700;
+  color: #2a363b;
+}
+
+.link:focus,
+.link:hover {
+  color: #e84a5f;
+}
+
+.activeLink {
+  color: #e84a5f;
+}
