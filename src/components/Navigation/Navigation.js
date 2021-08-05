@@ -21,7 +21,7 @@ const Navigation = ({ isAuthenticated }) => (
         className={styles.link}
         activeClassName={styles.activeLink}
       >
-        Phonebook
+        Contacts
       </NavLink>
     )}
   </nav>

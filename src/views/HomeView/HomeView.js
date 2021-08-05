@@ -5,7 +5,7 @@ const HomeView = () => (
   <div className={styles.container}>
     <div className={styles.wrapper}>
       <h1 className={styles.title}>
-        Welcome to your handy Phonebook App{' '}
+        Welcome to your handy <span>Phonebook</span> App
         <span role="img" aria-label="Welcome icon">
           📓
         </span>
