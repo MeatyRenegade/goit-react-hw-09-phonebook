@@ -10,7 +10,7 @@ import {
   fetchContactRequest,
   fetchContactSuccess,
   fetchContactError,
-  handleChange,
+  handleFilterChange,
 } from './contacts-actions';
 
 const items = createReducer([], {
@@ -33,7 +33,7 @@ const loading = createReducer(false, {
 });
 
 const filter = createReducer('', {
-  [handleChange]: (_, { payload }) => payload,
+  [handleFilterChange]: (_, { payload }) => payload,
 });
 
 export default combineReducers({

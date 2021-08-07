@@ -1,39 +1,39 @@
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { handleChange } from '../../redux/contacts/contacts-actions';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleFilterChange } from '../../redux/contacts/contacts-actions';
 import { getFilter } from '../../redux/contacts/contacts-selectors';
 import styles from './Filter.module.css';
 
-const Filter = ({ value, onChange }) => (
-  <div className={styles.filter_box}>
-    <h2>- Contacts -</h2>
-    <form>
-      <div className={styles.user_box}>
-        <input
-          className={styles.input}
-          type="text"
-          name="search"
-          required
-          value={value}
-          onChange={onChange}
-        ></input>
-        <label>Search</label>
-      </div>
-    </form>
-  </div>
-);
+const Filter = () => {
+  const filter = useSelector(getFilter);
 
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+  const dispatch = useDispatch();
+  const handleChange = useCallback(
+    e => {
+      dispatch(handleFilterChange(e.target.value));
+    },
+    [dispatch],
+  );
+
+  return (
+    <div className={styles.filter_box}>
+      <h2>- Contacts -</h2>
+      <form>
+        <div className={styles.user_box}>
+          <input
+            className={styles.input}
+            type="text"
+            name="search"
+            required
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            value={filter}
+            onChange={handleChange}
+          ></input>
+          <label htmlFor="search">Search</label>
+        </div>
+      </form>
+    </div>
+  );
 };
 
-const mapStateToProps = state => ({
-  value: getFilter(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onChange: e => dispatch(handleChange(e.target.value)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;

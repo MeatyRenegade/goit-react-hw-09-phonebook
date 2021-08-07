@@ -1,82 +1,96 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { register } from '../../redux/auth/auth-operations';
 import styles from './RegisterView.module.css';
 
-class RegisterView extends Component {
-  state = {
-    name: '',
-    email: '',
-    password: '',
+const RegisterView = () => {
+  const dispatch = useDispatch();
+  const onRegister = useCallback(user => dispatch(register(user)), [dispatch]);
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChange = ({ target: { name, value } }) => {
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'email':
+        setEmail(value);
+        break;
+
+      case 'password':
+        setPassword(value);
+        break;
+
+      default:
+        console.log('Something went wrong, try again!');
+    }
   };
 
-  handelChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  handelSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onRegister(this.state);
+    onRegister({ name, email, password });
 
-    this.setState({ name: '', email: '', password: '' });
+    reset();
   };
 
-  render() {
-    const { name, email, password } = this.state;
+  const reset = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+  };
 
-    return (
-      <div className={styles.container}>
-        <div className={styles.register_box}>
-          <h2>SIGN-UP</h2>
+  return (
+    <div className={styles.container}>
+      <div className={styles.register_box}>
+        <h2>SIGN-UP</h2>
 
-          <form onSubmit={this.handelSubmit} autoComplete="off">
-            <div className={styles.user_box}>
-              <input
-                type="text"
-                name="name"
-                required
-                value={name}
-                onChange={this.handelChange}
-              />
-              <label>Name</label>
-            </div>
-            <div className={styles.user_box}>
-              <input
-                type="text"
-                name="email"
-                required
-                value={email}
-                onChange={this.handelChange}
-              />
-              <label>E-mail</label>
-            </div>
-            <div className={styles.user_box}>
-              <input
-                type="password"
-                name="password"
-                required
-                value={password}
-                onChange={this.handelChange}
-              />
-              <label>Password</label>
-            </div>
-            <button type="submit">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Submit
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit} autoComplete="off">
+          <div className={styles.user_box}>
+            <input
+              type="text"
+              name="name"
+              required
+              value={name}
+              onChange={handleChange}
+            />
+            <label>Name</label>
+          </div>
+          <div className={styles.user_box}>
+            <input
+              type="text"
+              name="email"
+              required
+              value={email}
+              onChange={handleChange}
+            />
+            <label>E-mail</label>
+          </div>
+          <div className={styles.user_box}>
+            <input
+              type="password"
+              name="password"
+              required
+              value={password}
+              onChange={handleChange}
+            />
+            <label>Password</label>
+          </div>
+          <button type="submit">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Submit
+          </button>
+        </form>
       </div>
-    );
-  }
-}
-
-const mapDispatchToProps = {
-  onRegister: register,
+    </div>
+  );
 };
 
-export default connect(null, mapDispatchToProps)(RegisterView);
+export default RegisterView;
